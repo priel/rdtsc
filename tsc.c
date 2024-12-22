@@ -61,7 +61,7 @@ void measure_instruction_cycles_histogram(int num_runs, int num_repeat, int prin
         avg_cycles = cycles / num_repeat;
         
         if (avg_cycles < min)
-            min = cycles;
+            min = avg_cycles;
             
         if (print_each)
             printf("latency is: 0x%" PRIx64 "\n", avg_cycles);
@@ -72,7 +72,7 @@ void measure_instruction_cycles_histogram(int num_runs, int num_repeat, int prin
 
     // printf("dummy rdtsc total: 0x%" PRIx64 "\n", a);
     uint64_t average_cycles = total_avg_cycles / num_runs;
-    printf("rdtsc Repeats: %d, Average cycles: %" PRIx64 "\n", num_repeat, average_cycles);
+    printf("rdtsc Repeats: %d, Average cycles: 0x%" PRIx64 ", Averge min: 0x%" PRIx64 "\n", num_repeat, average_cycles, min);
     
 
 }
