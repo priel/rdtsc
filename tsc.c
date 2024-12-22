@@ -13,6 +13,22 @@ static inline uint64_t rdtsc()
 }
 
 
+static inline void en_fixed_cntr1()
+{
+	//the address is 0x734 cr address
+	__asm__ __volatile__(
+		"movq $0x734, %%rax\n\t"
+		"movq $0x02, %%rcx\n\t"
+		".byte 0x0f, 0x0e\n\t"
+		"orq $0x30, %%rdx\n\t"
+		".byte 0x0f, 0x0f\n\t"
+		: 
+		:
+		: "rax", "rbx", "rcx", "rdx"
+	);
+	return;
+}
+
 static inline uint64_t read_fixed_cntr1()
 {
 	//the address is 0x18c cr address
@@ -36,7 +52,7 @@ void measure_instruction_cycles_histogram(int num_runs, int num_repeat, int prin
     uint64_t cycles, avg_cycles;
     uint64_t total_avg_cycles = 0; // Variable to accumulate total cycles
     
-
+    en_fixed_cntr1();
     // Ensure the instruction is executed multiple times to get a measurable time
     for (i = 0; i < num_runs; i++) {
         // Serialize the instruction stream to ensure accurate timing
