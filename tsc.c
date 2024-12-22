@@ -32,14 +32,10 @@ static inline uint64_t read_fixed_cntr1()
 void measure_instruction_cycles_histogram(int num_runs, int num_repeat, int print_each) {
     uint64_t start, end, min = UINT64_MAX;
     volatile uint64_t a = 0;
-    //unsigned long int start_rdtsc, end_rdtsc;
-    //uint64_t start, end;
     int i, j;
-//    uint64_t cycles[num_runs];
     uint64_t cycles, avg_cycles;
     uint64_t total_avg_cycles = 0; // Variable to accumulate total cycles
     
-//    int bins[10] = {0}; // Histogram bins for cycle ranges
 
     // Ensure the instruction is executed multiple times to get a measurable time
     for (i = 0; i < num_runs; i++) {
@@ -61,7 +57,6 @@ void measure_instruction_cycles_histogram(int num_runs, int num_repeat, int prin
 
         // Calculate the number of cycles for this iteration
         cycles = end - start;
-//        cycles[i] = end - start;
 
         avg_cycles = cycles / num_repeat;
         
@@ -79,38 +74,6 @@ void measure_instruction_cycles_histogram(int num_runs, int num_repeat, int prin
     uint64_t average_cycles = total_avg_cycles / num_runs;
     printf("rdtsc Repeats: %d, Average cycles: %" PRIx64 "\n", num_repeat, average_cycles);
     
-    
-    // Build the histogram
-//    for (i = 0; i < num_runs; i++) {
-//        uint64_t cycle_count = cycles[i];
-//        if (cycle_count < 100) {
-//            bins[0]++;
-//        } else if (cycle_count < 200) {
-//            bins[1]++;
-//        } else if (cycle_count < 300) {
-//            bins[2]++;
-//        } else if (cycle_count < 400) {
-//            bins[3]++;
-//        } else if (cycle_count < 500) {
-//            bins[4]++;
-//        } else if (cycle_count < 600) {
-//            bins[5]++;
-//        } else if (cycle_count < 700) {
-//            bins[6]++;
-//        } else if (cycle_count < 800) {
-//            bins[7]++;
-//        } else if (cycle_count < 900) {
-//            bins[8]++;
-//        } else {
-//            bins[9]++;
-//        }
-//    }
-
-    // Display the histogram
-//    printf("Cycle Count Histogram:\n");
-//    for (i = 0; i < 10; i++) {
-//        printf("%2d-%2d cycles: %d occurrences\n", i * 100, (i + 1) * 100 - 1, bins[i]);
-//    }
 
 }
 
