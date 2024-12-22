@@ -7,25 +7,25 @@
 
 static inline uint64_t rdtsc()
 {
-	uint64_t eax, edx ;
-	__asm__ __volatile__("rdtsc" : "=a"(eax), "=d"(edx));
-	return ((uint64_t)edx) << 32 | eax;
+    uint64_t eax, edx ;
+    __asm__ __volatile__("rdtsc" : "=a"(eax), "=d"(edx));
+    return ((uint64_t)edx) << 32 | eax;
 }
 
 
 static inline uint64_t read_fixed_cntr1()
 {
-	//the address is 0x18c cr address
-	uint64_t rdx;
-	__asm__ __volatile__(
-		"movq $0x18c, %%rax\n\t"
-		"movq $0x02, %%rcx\n\t"
-		".byte 0x0f, 0x0e\n\t"
-		: "=d"(rdx) 
-		:
-		: "rax", "rbx", "rcx"
-	);
-	return rdx;
+    //the address is 0x18c cr address
+    uint64_t rdx;
+    __asm__ __volatile__(
+        "movq $0x18c, %%rax\n\t"
+        "movq $0x02, %%rcx\n\t"
+        ".byte 0x0f, 0x0e\n\t"
+        : "=d"(rdx) 
+        :
+        : "rax", "rbx", "rcx"
+    );
+    return rdx;
 }
 
 
@@ -48,8 +48,8 @@ void measure_instruction_cycles_histogram(int num_runs, int num_repeat, int prin
 
         // The assembly instruction to measure
         for (j = 0; j < num_repeat; j++) {
-		a += rdtsc();
-	}
+        a += rdtsc();
+    }
 
         // read the cycle count again to see how much time it took
         end = read_fixed_cntr1();
