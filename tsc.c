@@ -15,18 +15,34 @@ static inline uint64_t rdtsc()
 
 static inline void en_fixed_cntr1()
 {
-	//the address is 0x734 cr address
-	__asm__ __volatile__(
-		"movq $0x734, %%rax\n\t"
-		"movq $0x02, %%rcx\n\t"
-		".byte 0x0f, 0x0e\n\t"
-		"orq $0x30, %%rdx\n\t"
-		".byte 0x0f, 0x0f\n\t"
-		: 
-		:
-		: "rax", "rbx", "rcx", "rdx"
-	);
-	return;
+    // enable the ctr ctrl counter:
+    //the address is 0x734 cr address
+    // read modify write to bits 0x30
+    __asm__ __volatile__(
+        "movq $0x734, %%rax\n\t"
+        "movq $0x02, %%rcx\n\t"
+        ".byte 0x0f, 0x0e\n\t"
+        "orq $0x30, %%rdx\n\t"
+        ".byte 0x0f, 0x0f\n\t"
+        : 
+        :
+        : "rax", "rbx", "rcx", "rdx"
+    );
+    // enable global control counters:
+    // the address is 0x176
+    // read modify write to bits 0x0f00000000
+    __asm__ __volatile__(
+        "movq $0x176, %%rax\n\t"
+        "movq $0x02, %%rcx\n\t"
+        ".byte 0x0f, 0x0e\n\t"
+        "orq $0x0f00000000, %%rdx\n\t"
+        ".byte 0x0f, 0x0f\n\t"
+        : 
+        :
+        : "rax", "rbx", "rcx", "rdx"
+    );
+
+    return;
 }
 
 static inline uint64_t read_fixed_cntr1()
